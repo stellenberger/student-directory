@@ -4,8 +4,25 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  puts "Which students do you want to look up? Use a - z."
+  puts "If you want to look at all students, type all"
+  while true do
+    choice = gets.chomp
+    if choice == 'all'
+      students.each_with_index do |student, index|
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      end
+      break
+    elsif (choice.match(/[a-z]/)) && (choice.length == 1)
+      students.each_with_index do |student, index|
+        if student[:name][0] == choice.downcase
+          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+        end
+      end
+      break
+    else
+      puts 'That is not valid input'
+    end
   end
 end
 
