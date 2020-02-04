@@ -47,11 +47,15 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  if students.length == 1
+    puts "Overall, we have #{students.count} great student"
+  else
+    puts "Overall, we have #{students.count} great students"
+  end
 end
 
 def input_students
-  puts "Please enter the names of the students"
+  puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
   students = []
   name = gets.chomp
@@ -74,10 +78,10 @@ def input_students
     puts "And the next students name:"
     name = gets.chomp
   end
-  students
+  students.sort_by{|student| student[:cohort]}
 end
 
-students = input_students
+students = input_students()
 print_header
 print(students)
 print_footer(students)
