@@ -15,8 +15,13 @@ def print(students)
       #code exercise to not use the each method and to create one using while loop
       #code exercise to only produce names under 12 characters long
       while index < students.length
-        puts "#{index + 1}. #{students[index][:name]} " +
-        "(#{students[index][:cohort]} cohort)" if students[index][:name].length < 12
+        if students[index][:name].length < 12
+          puts "#{index + 1}. #{students[index][:name]} " +
+          "(#{students[index][:cohort]} cohort). " +
+          "#{students[index][:hobby]} is their hobby, " +
+          "they were born in #{students[index][:country_of_birth]} " +
+          "and they are #{students[index][:height]} tall."
+        end
         index += 1
       end
       break
@@ -25,9 +30,12 @@ def print(students)
       #code exercise to not use the each method and to create one using while loop
       #code exercise to only produce names under 12 characters long
       while index < students.length
-        if students[index][:name][0] == choice.downcase 
+        if (students[index][:name][0] == choice.downcase) && (students[index][:name].length < 12)
           puts "#{index + 1}. #{students[index][:name]} " +
-          "(#{students[index][:cohort]} cohort)" if students[index][:name].length < 12
+          "(#{students[index][:cohort]} cohort) " +
+          "#{students[index][:hobby]} is their hobby, " +
+          "they were born in #{students[index][:country_of_birth]} " +
+          "and they are #{students[index][:height]} tall."
         end
         index += 1
       end
