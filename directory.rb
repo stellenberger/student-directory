@@ -16,11 +16,11 @@ def print(students)
       #code exercise to only produce names under 12 characters long
       while index < students.length
         if students[index][:name].length < 12
-          puts "#{index + 1}. #{students[index][:name]} " +
+          puts ("#{index + 1}. #{students[index][:name]} " +
           "(#{students[index][:cohort]} cohort). " +
-          "#{students[index][:hobby]} is their hobby, " +
-          "they were born in #{students[index][:country_of_birth]} " +
-          "and they are #{students[index][:height]} tall."
+          "\n hobby: #{students[index][:hobby]} " +
+          "\n country of birth: #{students[index][:country_of_birth]} " +
+          "\n height: #{students[index][:height]} tall.").center(20)
         end
         index += 1
       end
@@ -31,11 +31,11 @@ def print(students)
       #code exercise to only produce names under 12 characters long
       while index < students.length
         if (students[index][:name][0] == choice.downcase) && (students[index][:name].length < 12)
-          puts "#{index + 1}. #{students[index][:name]} " +
-          "(#{students[index][:cohort]} cohort) " +
-          "#{students[index][:hobby]} is their hobby, " +
-          "they were born in #{students[index][:country_of_birth]} " +
-          "and they are #{students[index][:height]} tall."
+          puts ("#{index + 1}. #{students[index][:name]} " +
+          "(#{students[index][:cohort]} cohort). " +
+          "\n hobby: #{students[index][:hobby]} " +
+          "\n country of birth: #{students[index][:country_of_birth]} " +
+          "\n height: #{students[index][:height]} tall.").center(20)
         end
         index += 1
       end
@@ -56,6 +56,9 @@ def input_students
   students = []
   name = gets.chomp
   while !name.empty? do
+    puts "and the students cohort"
+    cohort = gets.chomp.to_sym
+    cohort = :february if cohort.empty?
     #code exercise to add hobbies
     puts "and that students hobby"
     hobby = gets.chomp
@@ -65,7 +68,7 @@ def input_students
     #code exercise to add height
     puts "and that students height"
     height = gets.chomp
-    students << {name: name, cohort: :february, hobby: hobby, country_of_birth:
+    students << {name: name, cohort: cohort, hobby: hobby, country_of_birth:
       country_of_birth, height: height}
     puts "Now we have #{students.count} students"
     puts "And the next students name:"
