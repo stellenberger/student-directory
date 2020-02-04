@@ -9,15 +9,21 @@ def print(students)
   while true do
     choice = gets.chomp
     if choice == 'all'
-      students.each_with_index do |student, index|
-        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      index = 0
+      while index < students.length
+        puts "#{index + 1}. #{students[index][:name]} " +
+        "(#{students[index][:cohort]} cohort)" if students[index][:name].length < 12
+        index += 1
       end
       break
     elsif (choice.match(/[a-z]/)) && (choice.length == 1)
-      students.each_with_index do |student, index|
-        if student[:name][0] == choice.downcase
-          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      index = 0
+      while index < students.length
+        if students[index][:name][0] == choice.downcase
+          puts "#{index + 1}. #{students[index][:name]} " +
+          "(#{students[index][:cohort]} cohort)" if students[index][:name].length < 12
         end
+        index += 1
       end
       break
     else
