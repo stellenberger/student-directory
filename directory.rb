@@ -40,12 +40,8 @@ end
 def print_students_list()
   #code exercise to produce names starting with a particular letter.
   #I put user ability to choose this letter.
-  if @students.empty?
-    puts 'You didnt input any students. Goodbye!'
-    return
-  end
-  puts "Which students do you want to look up? Use a - z."
-  puts "If you want to look at all students, type all"
+  check_if_students_is_empty()
+  lookup_options()
   while true do
     choice = gets.chomp
     if choice == 'all'
@@ -63,6 +59,18 @@ def print_students_list()
     else
       puts 'That is not valid input'
     end
+  end
+end
+
+def lookup_options
+  puts "Which students do you want to look up? Use a - z."
+  puts "If you want to look at all students, type all"
+end
+
+def check_if_students_is_empty
+  if @students.empty?
+    puts 'You didnt input any students. Goodbye!'
+    exit
   end
 end
 
