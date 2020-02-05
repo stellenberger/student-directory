@@ -49,27 +49,15 @@ def print_students_list()
   while true do
     choice = gets.chomp
     if choice == 'all'
-      index = 0
-      #code exercise to not use the each method and to create one using while loop
-      #code exercise to only produce names under 12 characters long
-      while index < @students.length
-        if @students[index][:name].length < 12
-          puts "#{index + 1}. #{@students[index][:name]} " +
-          "(#{@students[index][:cohort]} cohort). "
-        end
-        index += 1
+      @students.each_with_index do |student, index|
+          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). "
       end
       break
     elsif (choice.match(/[a-z]/)) && (choice.length == 1)
-      index = 0
-      #code exercise to not use the each method and to create one using while loop
-      #code exercise to only produce names under 12 characters long
-      while index < @students.length
-        if (@students[index][:name][0] == choice.downcase) && (@students[index][:name].length < 12)
-          puts "#{index + 1}. #{@students[index][:name]} " +
-          "(#{@students[index][:cohort]} cohort). "
+      @students.each_with_index do |student, index|
+        if student[:name][0] == choice.downcase
+          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). "
         end
-        index += 1
       end
       break
     else
