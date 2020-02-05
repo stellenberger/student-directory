@@ -6,6 +6,11 @@ end
 def print(students)
   #code exercise to produce names starting with a particular letter.
   #I put user ability to choose this letter.
+  if students.empty?
+    puts 'You didnt input any students. Goodbye!'
+    return
+  end
+  print_header()
   puts "Which students do you want to look up? Use a - z."
   puts "If you want to look at all students, type all"
   while true do
@@ -82,6 +87,5 @@ def input_students
 end
 
 students = input_students()
-print_header
 print(students)
 print_footer(students)
