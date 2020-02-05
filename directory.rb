@@ -1,3 +1,28 @@
+def interactive_menu
+  students = []
+  loop do
+    # 1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+    when "1"
+      students = input_students()
+    when "2"
+      print_header()
+      print(students)
+      print_footer(students)
+    when "9"
+      exit # this will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again."
+    end
+  end
+end
+
 def print_header
   puts 'The students of Villians Academy'
   puts '------------------'
@@ -10,7 +35,6 @@ def print(students)
     puts 'You didnt input any students. Goodbye!'
     return
   end
-  print_header()
   puts "Which students do you want to look up? Use a - z."
   puts "If you want to look at all students, type all"
   while true do
@@ -86,6 +110,4 @@ def input_students
   students.sort_by{|student| student[:cohort]}
 end
 
-students = input_students()
-print(students)
-print_footer(students)
+interactive_menu()
