@@ -7,50 +7,6 @@ def interactive_menu
   end
 end
 
-def save_students
-  file = File.open("students.csv", "w")
-  @students.each do |student|
-    # create a new array of the students name and cohort
-    student_data = [student[:name], student[:cohort]]
-    # turn that array into a string by joining it with a comma as argument.
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  end
-  file.close
-end
-
-def try_load_students
-  filename = ARGV.first # first argument from the command line
-  return if filename.nil?
-  if File.exists?(filename)
-    load_students(filename)
-    puts "loaded #{@students.count} from #{filename}"
-  else
-    puts "sorry, #{filename} doesnt exist."
-    exit
-  end
-end
-
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    # parallel assignment. As its an array, first value goes in first variable,
-    # and second value goes into second variable
-    name, cohort = line.chomp.split(',')
-    student_array_push(name, cohort)
-  end
-  file.close
-end
-
-def student_array_push(name, cohort)
-  @students << {name: name, cohort: cohort.to_sym}
-end
-
-def input_successful_message(number)
-  puts "You chose #{number}"
-  puts "Goodbye! Have a lovely day" if number.to_i == 9
-end
-
 def process(selection)
   case selection
   when "1"
@@ -76,9 +32,57 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file of your choice"
+  puts "4. Load a list from a file of your choice"
   puts "9. Exit"
+end
+
+def save_students
+  puts "Please enter a file name you wish to save to."
+  file_choice = STDIN.gets.chomp
+  file = File.open(file_choice, "w")
+  @students.each do |student|
+    # create a new array of the students name and cohort
+    student_data = [student[:name], student[:cohort]]
+    # turn that array into a string by joining it with a comma as argument.
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+end
+
+def load_students(filename = "students.csv")
+  puts "Enter a file that you would like to load students from."
+  filename = STDIN.gets.chomp
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+    # parallel assignment. As its an array, first value goes in first variable,
+    # and second value goes into second variable
+    name, cohort = line.chomp.split(',')
+    student_array_push(name, cohort)
+  end
+  file.close
+end
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "loaded #{@students.count} from #{filename}"
+  else
+    puts "sorry, #{filename} doesnt exist."
+    exit
+  end
+end
+
+def student_array_push(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
+def input_successful_message(number)
+  puts "You chose #{number}"
+  puts "Goodbye! Have a lovely day" if number.to_i == 9
 end
 
 def show_students
@@ -131,14 +135,6 @@ def check_if_students_is_empty
   end
 end
 
-def print_footer()
-  if @students.length == 1
-    puts "Overall, we have #{@students.count} great student"
-  else
-    puts "Overall, we have #{@students.count} great students"
-  end
-end
-
 def input_students
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
@@ -153,6 +149,14 @@ def input_students
     name = STDIN.gets.chomp
   end
   @students.sort_by{|student| student[:cohort]}
+end
+
+def print_footer()
+  if @students.length == 1
+    puts "Overall, we have #{@students.count} great student"
+  else
+    puts "Overall, we have #{@students.count} great students"
+  end
 end
 
 try_load_students()
