@@ -46,17 +46,27 @@ def student_array_push(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
 
+def input_successful_message(number)
+  puts "You chose #{number}"
+  puts "Goodbye! Have a lovely day" if number.to_i == 9
+end
+
 def process(selection)
   case selection
   when "1"
+    input_successful_message("1")
     @students = input_students()
   when "2"
+    input_successful_message("2")
     show_students()
   when "3"
+    input_successful_message("3")
     save_students()
   when "4"
+    input_successful_message("4")
     load_students()
   when "9"
+    input_successful_message("9")
     exit
   else
     puts "I don't know what you meant, try again."
@@ -82,6 +92,10 @@ def print_header
   puts '------------------'
 end
 
+def print_student(student, index)
+  puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)."
+end
+
 def print_students_list()
   check_if_students_is_empty()
   lookup_options()
@@ -89,13 +103,13 @@ def print_students_list()
     choice = STDIN.gets.chomp
     if choice == 'all'
       @students.each_with_index do |student, index|
-          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)."
+          print_student(student, index)
       end
       break
     elsif (choice.match(/[a-z]/)) && (choice.length == 1)
       @students.each_with_index do |student, index|
         if student[:name][0] == choice.downcase
-          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)."
+          print_student(student, index)
         end
       end
       break
