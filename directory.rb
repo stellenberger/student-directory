@@ -14,7 +14,6 @@ def save_students
     student_data = [student[:name], student[:cohort]]
     # turn that array into a string by joining it with a comma as argument.
     csv_line = student_data.join(",")
-    # puts the string into the csv file
     file.puts csv_line
   end
   file.close
@@ -22,26 +21,29 @@ end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isnt given
-  if File.exists?(filename) #if it exists
+  return if filename.nil?
+  if File.exists?(filename)
     load_students(filename)
     puts "loaded #{@students.count} from #{filename}"
-  else # if it doesnt exist
+  else
     puts "sorry, #{filename} doesnt exist."
-    exit # quit the program
+    exit
   end
 end
-# here, we are giving load_students a default argument of students.csv. If
-# another file is added in the arguments, that file will be used instead.
+
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     # parallel assignment. As its an array, first value goes in first variable,
     # and second value goes into second variable
     name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    student_array_push(name, cohort)
   end
   file.close
+end
+
+def student_array_push(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def process(selection)
@@ -55,7 +57,7 @@ def process(selection)
   when "4"
     load_students()
   when "9"
-    exit # this will cause the program to terminate
+    exit
   else
     puts "I don't know what you meant, try again."
   end
@@ -131,7 +133,7 @@ def input_students
     puts "and the students cohort"
     cohort = STDIN.gets.chomp.to_sym
     cohort = :february if cohort.empty?
-    @students << {name: name, cohort: cohort}
+    student_array_push(name, cohort)
     puts "Now we have #{@students.count} students"
     puts "And the next students name:"
     name = STDIN.gets.chomp
