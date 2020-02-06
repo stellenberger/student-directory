@@ -1,9 +1,14 @@
 @students = []
 
+def interactive_menu
+  loop do
+    print_menu()
+    process(STDIN.gets.chomp)
+  end
+end
+
 def save_students
-  # open the file for writing
   file = File.open("students.csv", "w")
-  # iterate over the array of students
   @students.each do |student|
     # create a new array of the students name and cohort
     student_data = [student[:name], student[:cohort]]
@@ -15,8 +20,21 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isnt given
+  if File.exists?(filename) #if it exists
+    load_students(filename)
+    puts "loaded #{@students.count} from #{filename}"
+  else # if it doesnt exist
+    puts "sorry, #{filename} doesnt exist."
+    exit # quit the program
+  end
+end
+# here, we are giving load_students a default argument of students.csv. If
+# another file is added in the arguments, that file will be used instead.
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     # parallel assignment. As its an array, first value goes in first variable,
     # and second value goes into second variable
@@ -24,13 +42,6 @@ def load_students
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
-end
-
-def interactive_menu
-  loop do
-    print_menu()
-    process(gets.chomp)
-  end
 end
 
 def process(selection)
@@ -70,21 +81,19 @@ def print_header
 end
 
 def print_students_list()
-  #code exercise to produce names starting with a particular letter.
-  #I put user ability to choose this letter.
   check_if_students_is_empty()
   lookup_options()
   while true do
-    choice = gets.chomp
+    choice = STDIN.gets.chomp
     if choice == 'all'
       @students.each_with_index do |student, index|
-          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). "
+          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)."
       end
       break
     elsif (choice.match(/[a-z]/)) && (choice.length == 1)
       @students.each_with_index do |student, index|
         if student[:name][0] == choice.downcase
-          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). "
+          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)."
         end
       end
       break
@@ -117,17 +126,18 @@ end
 def input_students
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
-  name = gets.chomp
+  name = STDIN.gets.chomp
   while !name.empty? do
     puts "and the students cohort"
-    cohort = gets.chomp.to_sym
+    cohort = STDIN.gets.chomp.to_sym
     cohort = :february if cohort.empty?
     @students << {name: name, cohort: cohort}
     puts "Now we have #{@students.count} students"
     puts "And the next students name:"
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
   @students.sort_by{|student| student[:cohort]}
 end
 
+try_load_students()
 interactive_menu()
