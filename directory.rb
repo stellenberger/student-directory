@@ -40,28 +40,21 @@ end
 def save_students
   puts "Please enter a file name you wish to save to."
   file_choice = STDIN.gets.chomp
-  file = File.open(file_choice, "w")
-  @students.each do |student|
-    # create a new array of the students name and cohort
-    student_data = [student[:name], student[:cohort]]
-    # turn that array into a string by joining it with a comma as argument.
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(file_choice, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      file.write student_data.join(",")
+    end
   end
-  file.close
 end
 
 def load_students(filename = "students.csv")
   puts "Enter a file that you would like to load students from."
   filename = STDIN.gets.chomp
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    # parallel assignment. As its an array, first value goes in first variable,
-    # and second value goes into second variable
+  File.foreach(filename) do |line|
     name, cohort = line.chomp.split(',')
     student_array_push(name, cohort)
   end
-  file.close
 end
 
 def try_load_students
